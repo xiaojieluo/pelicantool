@@ -1,0 +1,2 @@
+import blog
+blog.main()
