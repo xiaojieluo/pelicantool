@@ -1,0 +1,4 @@
+path: 'content/content'
+filename: '%Y-%m-%d-{title}'
+author: xiaojieluo
+type: rst
