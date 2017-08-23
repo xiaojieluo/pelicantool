@@ -27,6 +27,7 @@ class Article(object):
         self._tags = ' '
         self._author = pelicanconf.AUTHOR
         self._format = '.md'
+        self._filename = None
 
 
     def translation(self, query, from_='zh', to='en'):
@@ -54,13 +55,15 @@ class Article(object):
 
         return None
 
-    def create(self):
+    def create(self, expath=None):
         '''
         create article
+        args:
+            expath: 文件存储目录， 若为None，则根据 pelicanconf.py 中的 PATH 来自动判断
         '''
         print("start creating...")
         if self.title:
-            if self._create_file(self.filename, '\n'.join(self.content)):
+            if self._create_file(self.filename, '\n'.join(self.content), expath):
                 print("{fullname} craete ....... [successful!]\n".format(
                     fullname=self.filename))
                 print('\n'.join(self.content))
@@ -72,17 +75,25 @@ class Article(object):
         '''
         将要生成的文件名
         '''
-        filename = '{time}-{title}{format}'.format(
-            time=datetime.datetime.now().strftime('%Y-%m-%d'),
-            title=self.title,
-            format=self.format)
+        if self._filename is None:
+            self._filename = '{time}-{title}{format}'.format(
+                time=datetime.datetime.now().strftime('%Y-%m-%d'),
+                title=self.title,
+                format=self.format)
 
-        return filename
+        return self._filename
+
+    @filename.setter
+    def filename(self, value):
+        self._filename = value
 
 
-    def _create_file(self, fullname, content):
+    def _create_file(self, fullname, content, expath=None):
         # 目录不存在,则创建
-        path = pelicanconf.PATH
+        if expath is not None:
+            path = expath
+        else:
+            path = pelicanconf.PATH
         if os.path.isdir(path) is False:
             print("目录不存在,创建中...........创建完成")
             os.makedirs(os.path.join(path))

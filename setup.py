@@ -6,15 +6,12 @@ with open('README.md') as f:
 with open('LICENSE') as f:
     license = f.read()
 
-packages = ['vlde']
+packages = ['pelicantool']
 test_requirements = ['pytest>=3.1.2', 'pytest-cov']
 
 entry_points = {
     'console_scripts': [
-        'pelican_tool = pelican_tool.pelican_tool:main',
-        # 'pelican-import = pelican.tools.pelican_import:main',
-        # 'pelican-quickstart = pelican.tools.pelican_quickstart:main',
-        # 'pelican-themes = pelican.tools.pelican_themes:main'
+        'pelicantool = pelicantool.pelicantool:main',
     ]
 }
 
