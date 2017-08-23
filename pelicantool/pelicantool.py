@@ -1,36 +1,27 @@
 import argparse
 import sys
 import os
-from utils import ask, str_compat
+try:
+    from utils import ask, str_compat
+except ModuleNotFoundError :
+    from pelicantool.utils import ask, str_compat
 import datetime
 import time
 import random, hashlib, urllib.parse
 import requests
 
-sys.path.append(os.getcwd())
-import pelicanconf
+try:
+    sys.path.append(os.getcwd())
+    import pelicanconf
+except ModuleNotFoundError:
+    sys.path.append(os.path.join(os.getcwd(), 'tests'))
+    import pelicanconf
 
 __version__ = '0.1.0'
 
-# class Pelican(object):
-#
-#     def __init__(self):
-#         self.conf = pelicanconf
-#
-#     @property
-#     def author(self):
-#         '''作者信息'''
-#
-#         return self.conf.AUTHOR
-#
-#     @property
-#     def sitename(self):
-#         return self.conf.SITENAME
-
 class Article(object):
     def __init__(self):
-        # self.conf = pelicanconf
-        self._title = None
+        self._title = ''
         self._date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self._modified = self._date
         self._tags = ' '
@@ -69,24 +60,30 @@ class Article(object):
         '''
         print("start creating...")
         if self.title:
-            filename = '{time}-{title}{format}'.format(
-                time=datetime.datetime.now().strftime('%Y-%m-%d'),
-                title=self.title,
-                format=self.format)
-
-            if self._create_file(filename, '\n'.join(self.content)):
+            if self._create_file(self.filename, '\n'.join(self.content)):
                 print("{fullname} craete ....... [successful!]\n".format(
-                    fullname=filename))
+                    fullname=self.filename))
                 print('\n'.join(self.content))
             else:
                 print("failed!")
+
+    @property
+    def filename(self):
+        '''
+        将要生成的文件名
+        '''
+        filename = '{time}-{title}{format}'.format(
+            time=datetime.datetime.now().strftime('%Y-%m-%d'),
+            title=self.title,
+            format=self.format)
+
+        return filename
 
 
     def _create_file(self, fullname, content):
         # 目录不存在,则创建
         path = pelicanconf.PATH
         if os.path.isdir(path) is False:
-        # if os.path.isdir(os.path.join('./', self.data.get('path'))) is False:
             print("目录不存在,创建中...........创建完成")
             os.makedirs(os.path.join(path))
 
@@ -199,12 +196,13 @@ def main():
     parser.add_argument('-v','--version', action='version', version='%(prog)s 2.0')
     args = parser.parse_args()
 
-    print('''Welcome to pelican-quickstart v{v}.
+    print('''Welcome to pelicantool v{v}.
 
-This script will help you create a new Pelican-based website.
+This script helps you create new articles.
 
-Please answer the following questions so this script can generate the files
-needed by Pelican.
+Please answer the following questions so this script can generate the
+
+information needed by article.
 
     '''.format(v=__version__))
     article = Article()
