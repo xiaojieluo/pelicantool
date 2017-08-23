@@ -21,10 +21,7 @@ class TestPelicantool(object):
 
     def test_article_create(self):
         self.article.title = '测试标题'
-        # self.article.create()
-        # filename = os.path.join('tests/content', self.article.filename)
         self.article.create(expath='tests/content')
-        # print(filename)
 
         assert os.path.isfile(os.path.join('tests/content',self.article.filename)) is True
 
