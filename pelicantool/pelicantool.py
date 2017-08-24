@@ -3,7 +3,7 @@ import sys
 import os
 try:
     from utils import ask, str_compat
-except ModuleNotFoundError :
+except ModuleNotFoundError:
     from pelicantool.utils import ask, str_compat
 import datetime
 import time

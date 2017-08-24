@@ -11,7 +11,6 @@ class TestPelicantool(object):
         '''
         self.article = Article()
 
-
     def test_article_author(self):
 
         assert self.article.author == 'Xiaojie Luo'
