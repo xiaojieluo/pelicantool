@@ -13,6 +13,7 @@ def _input_compat(prompt):
         r = raw_input(prompt)
     return r
 
+
 def ask(question, answer=str_compat, default=None, l=None):
     if answer == str_compat:
         r = ''

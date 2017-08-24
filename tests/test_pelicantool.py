@@ -4,6 +4,7 @@ import pytest
 import os
 import datetime
 
+
 class TestPelicantool(object):
 
     def setup_class(self):
@@ -22,14 +23,12 @@ class TestPelicantool(object):
         self.article.title = '测试标题'
         self.article.create(expath='tests/content')
 
-
-        assert os.path.isfile(os.path.join('tests/content',self.article.filename)) is True
+        assert os.path.isfile(os.path.join(
+            'tests/content', self.article.filename)) is True
 
     def teardown_class(self):
         os.remove(os.path.join('tests/content', self.article.filename))
         os.removedirs('tests/content')
-
-
 
 
 def test_article_create():

@@ -1,14 +1,16 @@
 import argparse
 import sys
 import os
+import datetime
+import random
+import hashlib
+import urllib.parse
+import requests
+
 try:
     from utils import ask, str_compat
 except ModuleNotFoundError:
     from pelicantool.utils import ask, str_compat
-import datetime
-import time
-import random, hashlib, urllib.parse
-import requests
 
 try:
     sys.path.append(os.getcwd())
@@ -19,6 +21,7 @@ except ModuleNotFoundError:
 
 __version__ = '0.1.0'
 
+
 class Article(object):
     def __init__(self):
         self._title = ''
@@ -28,7 +31,6 @@ class Article(object):
         self._author = pelicanconf.AUTHOR
         self._format = '.md'
         self._filename = None
-
 
     def translation(self, query, from_='zh', to='en'):
         '''
@@ -42,7 +44,8 @@ class Article(object):
         sign = m1.hexdigest()
         url = 'http://api.fanyi.baidu.com/api/trans/vip/translate?'
         url = url + urllib.parse.urlencode(
-            {'q': query, 'from': from_, 'to': to, 'appid': appid, 'salt': salt, 'sign': sign})
+            {'q': query, 'from': from_, 'to': to, 'appid': appid,
+             'salt': salt, 'sign': sign})
 
         r = requests.get(url)
         r.encoding = 'utf-8'
@@ -63,7 +66,8 @@ class Article(object):
         '''
         print("start creating...")
         if self.title:
-            if self._create_file(self.filename, '\n'.join(self.content), expath):
+            content = '\n'.join(self.content)
+            if self._create_file(self.filename, content, expath):
                 print("{fullname} craete ....... [successful!]\n".format(
                     fullname=self.filename))
                 print('\n'.join(self.content))
@@ -87,7 +91,6 @@ class Article(object):
     def filename(self, value):
         self._filename = value
 
-
     def _create_file(self, fullname, content, expath=None):
         # 目录不存在,则创建
         if expath is not None:
@@ -104,7 +107,6 @@ class Article(object):
             fp.write(content)
 
         return True
-
 
     @property
     def content(self):
@@ -124,7 +126,6 @@ class Article(object):
         content.append('\n')
 
         return content
-
 
     @property
     def format(self):
@@ -204,8 +205,9 @@ def main():
         prog='pelicantool',
         description='A auto tool for Pelican',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-v','--version', action='version', version='%(prog)s 2.0')
-    args = parser.parse_args()
+    parser.add_argument('-v', '--version',
+                        action='version', version='%(prog)s 2.0')
+    # args = parser.parse_args()
 
     print('''Welcome to pelicantool v{v}.
 
@@ -217,8 +219,10 @@ information needed by article.
 
     '''.format(v=__version__))
     article = Article()
-    article.title = ask('What will be the title of this article?', answer=str_compat)
-    article.tags = ask('Tags，use , split:', answer=str_compat, default=article.tags)
+    article.title = ask('What will be the title of this article?',
+                        answer=str_compat)
+    article.tags = ask('Tags，use , split:',
+                       answer=str_compat, default=article.tags)
     article.slug = ask('Slug:', answer=str_compat, default=article.slug)
     article.author = ask('Author:', answer=str_compat, default=article.author)
     article.date = ask('Date:', answer=str_compat, default=article.date)
@@ -226,6 +230,7 @@ information needed by article.
 
     if confirm:
         article.create()
+
 
 if __name__ == '__main__':
     main()
