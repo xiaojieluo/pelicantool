@@ -21,6 +21,14 @@ except ModuleNotFoundError:
 
 __version__ = '0.1.0'
 
+#
+# class Markdown(object):
+#
+#     def __init__(self, data=None):
+#         self.data = data
+#
+#     def create(self):
+
 
 class Article(object):
     def __init__(self):
@@ -114,18 +122,29 @@ class Article(object):
         create content
         '''
         content = list()
-        content = list()
-        content.append(self.title)
-        content.append(len(self.title) * '==' + '\n')
-        content.append(':date: ' + self.date)
-        content.append(':modified: ' + self.modified)
-        content.append(':slug: ' + self.slug)
+        # content.append(self.title)
+        # content.append(len(self.title) * '==' + '\n')
+        content.append('Title: ' + self.title)
+        content.append('Date: ' + self.date)
+        content.append('Modified: ' + self.modified)
+        content.append('Slug: ' + self.slug)
         if self.tags:
-            content.append(':tags: ' + self.tags)
-        content.append(':author: ' + self.author)
+            content.append('Tags: ' + self.tags)
+        content.append('Author: ' + self.author)
         content.append('\n')
 
         return content
+
+    @property
+    def categories(self):
+        '''
+        分类
+        '''
+        return self._categories
+
+    @categories.setter
+    def categories(self, value):
+        self._categories = value
 
     @property
     def format(self):

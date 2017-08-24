@@ -2,7 +2,6 @@ certifi==2017.7.27.1
 chardet==3.0.4
 coverage==4.4.1
 idna==2.6
--e git+git@github.com:xiaojieluo/pelicantool.git@176897e3a5a41c68be615ea6e5699ace0738971c#egg=pelicantool
 pluggy==0.4.0
 py==1.4.34
 pytest==3.2.1

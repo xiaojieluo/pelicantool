@@ -1,8 +1,6 @@
 from pelicantool.pelicantool import Article
 # import pelicantool.pelicantool
-import pytest
 import os
-import datetime
 
 
 class TestPelicantool(object):
