@@ -23,6 +23,7 @@ class TestPelicantool(object):
         self.article.title = '测试标题'
         self.article.create(expath='tests/content')
 
+
         assert os.path.isfile(os.path.join('tests/content',self.article.filename)) is True
 
     def teardown_class(self):
