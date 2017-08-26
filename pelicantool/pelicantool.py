@@ -19,15 +19,7 @@ except ModuleNotFoundError:
     sys.path.append(os.path.join(os.getcwd(), 'tests'))
     import pelicanconf
 
-__version__ = '0.1.0'
-
-#
-# class Markdown(object):
-#
-#     def __init__(self, data=None):
-#         self.data = data
-#
-#     def create(self):
+__version__ = '0.3.1'
 
 
 class Article(object):
@@ -101,10 +93,11 @@ class Article(object):
 
     def _create_file(self, fullname, content, expath=None):
         # 目录不存在,则创建
+        # 如果 expath 不为 None,则在 content 目录中创建子目录
         if expath is not None:
-            path = expath
+            path = os.path.join(pelicanconf.PELICANTOOL_PATH, expath)
         else:
-            path = pelicanconf.PATH
+            path = pelicanconf.PELICANTOOL_PATH
         if os.path.isdir(path) is False:
             print("目录不存在,创建中...........创建完成")
             os.makedirs(os.path.join(path))
@@ -122,8 +115,6 @@ class Article(object):
         create content
         '''
         content = list()
-        # content.append(self.title)
-        # content.append(len(self.title) * '==' + '\n')
         content.append('Title: ' + self.title)
         content.append('Date: ' + self.date)
         content.append('Modified: ' + self.modified)
@@ -131,6 +122,7 @@ class Article(object):
         if self.tags:
             content.append('Tags: ' + self.tags)
         content.append('Author: ' + self.author)
+        content.append('---\n')
         content.append('\n')
 
         return content
@@ -226,7 +218,7 @@ def main():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-v', '--version',
                         action='version', version='%(prog)s 2.0')
-    # args = parser.parse_args()
+    args = parser.parse_args()
 
     print('''Welcome to pelicantool v{v}.
 
@@ -248,7 +240,7 @@ information needed by article.
     confirm = ask('Confirm creation?', bool, True)
 
     if confirm:
-        article.create()
+        article.create(expath=article.filename.split('.')[0])
 
 
 if __name__ == '__main__':

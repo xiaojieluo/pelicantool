@@ -18,7 +18,7 @@ entry_points = {
 setup(
     name='pelicantool',
     keywords='pelican auto tool',
-    version='0.1.0',
+    version='0.3.1',
     description='pelican auto tool',
     long_description=readme,
     author='Luo Xiaojie',
