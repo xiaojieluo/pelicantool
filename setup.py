@@ -1,4 +1,5 @@
 from setuptools import setup
+from pelicantool import __version__
 
 with open('README.md') as f:
     readme = f.read()
@@ -11,14 +12,14 @@ test_requirements = ['pytest>=3.1.2', 'pytest-cov']
 
 entry_points = {
     'console_scripts': [
-        'pelicantool = pelicantool.pelicantool:main',
+        'pelicantool = pelicantool.__main__:main',
     ]
 }
 
 setup(
     name='pelicantool',
     keywords='pelican auto tool',
-    version='0.3.1',
+    version = __version__,
     description='pelican auto tool',
     long_description=readme,
     author='Luo Xiaojie',

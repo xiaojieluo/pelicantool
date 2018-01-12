@@ -13,5 +13,5 @@ build:
 	python setup.py sdist
 	python setup.py bdist_wheel
 	twine upload dist/*
-	rm -rf dist/
-	rm -rf build/
+	# rm -rf dist/
+	# rm -rf build/

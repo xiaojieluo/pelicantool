@@ -1,4 +1,8 @@
 import six
+import urllib, random, hashlib
+import requests
+import os
+import toml
 
 if six.PY3:
     str_compat = str
@@ -86,3 +90,39 @@ def ask(question, answer=str_compat, default=None, l=None):
     else:
         raise NotImplemented(
             'Argument `answer` must be str_compat, bool, or integer')
+
+
+def translation(query, from_='zh', to='en'):
+    '''
+    请求百度翻译 api 获取翻译结果
+    '''
+    appid = '20161217000034172'
+    secretKey = '07Qh2zEwKIx3kGwer1Uz'
+    salt = random.randint(32768, 65536)
+    sign = appid + query + str(salt) + secretKey
+    m1 = hashlib.md5(sign.encode('utf8'))
+    sign = m1.hexdigest()
+    url = 'http://api.fanyi.baidu.com/api/trans/vip/translate?'
+    url = url + urllib.parse.urlencode(
+        {'q': query, 'from': from_, 'to': to, 'appid': appid,
+         'salt': salt, 'sign': sign})
+
+    r = requests.get(url)
+    r.encoding = 'utf-8'
+    result = r.json()
+    if 'error_code' in result:
+        return None
+
+    if 'trans_result' in result:
+        return result['trans_result'][0].get('dst', None)
+
+    return None
+
+def parse_toml(path = None):
+    '''从 filepath 中解析 toml 配置文件
+    '''
+    config = {}
+    if os.path.exists(path):
+        config.update(toml.load(path))
+
+    return config
