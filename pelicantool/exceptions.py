@@ -4,3 +4,6 @@ class ParserNotFound(Exception):
 
 class ActionNotFound(Exception):
     pass
+
+class InterfaceNotImplete(Exception):
+    pass

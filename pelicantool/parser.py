@@ -17,7 +17,6 @@ class ArgsParser(object):
         parser.add_argument('-c', '--config_dir', default = './')
         parser.add_argument('action', nargs='?')
         parser.add_argument('target', nargs='?', help='操作的目标')
-        # parser.add_argument('--author', nargs=None)
 
         return parser.parse_args(self.args)
 

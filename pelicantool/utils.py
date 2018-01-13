@@ -92,12 +92,14 @@ def ask(question, answer=str_compat, default=None, l=None):
             'Argument `answer` must be str_compat, bool, or integer')
 
 
-def translation(query, from_='zh', to='en'):
+def translation(query, appid='20161217000034172', appkey = '07Qh2zEwKIx3kGwer1Uz', from_='zh', to='en'):
     '''
     请求百度翻译 api 获取翻译结果
     '''
-    appid = '20161217000034172'
-    secretKey = '07Qh2zEwKIx3kGwer1Uz'
+    # appid = '20161217000034172'
+    # secretKey = '07Qh2zEwKIx3kGwer1Uz'
+    appid = appid
+    secretKey = appkey
     salt = random.randint(32768, 65536)
     sign = appid + query + str(salt) + secretKey
     m1 = hashlib.md5(sign.encode('utf8'))

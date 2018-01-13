@@ -4,7 +4,6 @@ import sys
 
 def main():
     parser = ParserFactory.factory(sys.argv[1:])
-
     action = parser.instance()
 
     if action:

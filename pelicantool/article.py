@@ -2,6 +2,7 @@ from .parser import ArticleArgsParser
 import sys, os
 from .utils import ask, str_compat, translation, parse_toml
 import datetime
+from .exceptions import InterfaceNotImplete
 
 class ActionInterface(object):
 
@@ -16,7 +17,7 @@ class ActionInterface(object):
         self.__dict__[key] = value
 
     def run(self):
-        raise Exception("not implete this interface")
+        raise InterfaceNotImplete()
 
 
 class Article(ActionInterface):
@@ -45,14 +46,16 @@ class Article(ActionInterface):
         '''
         # 递归创建目录
         full_path = self.handle_duplicate_name(*os.path.split(path))
-        print(full_path)
 
         with open(full_path, 'w+') as fp:
             fp.write(content)
 
+    # def full_path(self):
+    #     pass
+
     def handle_duplicate_name(self, path, filename, start_index = 0):
         '''检测目录下是否有重名文件
-        如果有的话， 在当前文件名后面加个下划线
+        如果有的话， 在当前文件名后面递增数字
         '''
         if not os.path.exists(path):
             os.makedirs(path)
@@ -80,7 +83,7 @@ class Article(ActionInterface):
         content.append('Date: ' + data['date'])
         content.append('Modified: ' + data['modified'])
         content.append('Slug: ' + data['slug'])
-        if data['tags']:
+        if data.get('tags', None):
             content.append('Tags: ' + data['tags'])
         content.append('Author: ' + data['author'])
         content.append(len(data['slug']) * 5 * '-')
