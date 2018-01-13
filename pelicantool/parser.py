@@ -3,6 +3,7 @@ import argparse
 import toml
 from .utils import ask, str_compat
 from .exceptions import ParserNotFound
+from . import __version__
 
 class ArgsParser(object):
     def __init__(self, args):
@@ -14,6 +15,7 @@ class ArgsParser(object):
             description='A auto tool for Pelican',
             formatter_class=argparse.ArgumentDefaultsHelpFormatter,
             )
+        parser.add_argument('-v', '--version', action='version', version = '%(prog)s {}'.format(__version__))
         parser.add_argument('-c', '--config_dir', default = './')
         parser.add_argument('action', nargs='?')
         parser.add_argument('target', nargs='?', help='操作的目标')
