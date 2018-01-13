@@ -35,7 +35,7 @@ class Parser(object):
         '''从 filepath 中解析 toml 配置文件
         '''
         if path is None or not os.path.exists(path):
-            path = './config/pelicantool.toml'
+            path = os.path.join(os.path.dirname(__file__), './config/pelicantool.toml')
 
         config = {}
         config.update(toml.load(path))

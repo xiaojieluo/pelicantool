@@ -31,6 +31,10 @@ setup(
     packages=packages,
     tests_require=test_requirements,
     install_requires=requires,
+    include_package_data = True,
+    package_data = {
+        'pelicantool': ['config/*.toml'],
+    },
     classifiers=(
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
