@@ -16,6 +16,8 @@ entry_points = {
     ]
 }
 
+requires = ['toml>=0.9.4', 'requests>=2.18.4', 'six>=1.10.0']
+
 setup(
     name='pelicantool',
     keywords='pelican auto tool',
@@ -28,6 +30,7 @@ setup(
     license=license,
     packages=packages,
     tests_require=test_requirements,
+    install_requires=requires,
     classifiers=(
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
